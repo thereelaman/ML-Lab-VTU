@@ -34,7 +34,7 @@ def graphPlot(X,ypred):
     plt.show()
 
 # load data points
-data = pd.read_csv('10data_tips.csv') 
+data = pd.read_csv('10/10data_tips.csv') 
 bill = np.array(data.total_bill) # We use only Bill amount and Tips data
 tip = np.array(data.tip)
 mbill = np.mat(bill) # .mat will convert nd array is converted in 2D array
