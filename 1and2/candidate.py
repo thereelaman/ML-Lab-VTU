@@ -23,9 +23,7 @@ def learn(concepts,target):
                 else:
                     general_h[x][x] = "?"    
         
-    indices = [i for i,val in enumerate(general_h) if val==['?','?','?','?','?','?']]
- 
-    for i in indices:
+    while ['?','?','?','?','?','?'] in general_h:
         general_h.remove(['?','?','?','?','?','?'])
  
     return specific_h,general_h
