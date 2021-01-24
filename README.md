@@ -4,6 +4,9 @@ VTU ML Lab programs. I've added these for ease of accessibility. If you have any
 Use "pip install -r requirements.txt" to install the requirements.
 Use "jupyter-lab" to run jupyter lab.
 
+Execute the following to enable autocomplete in Jupyter Notebook : "%config Completer.use_jedi = False"
+Then, use TAB key for suggestions and SHIFT + TAB combo for details on the current object.
+
 # Programs :
 
 1. Implement and demonstrate the FIND-S algorithm for finding the most specific hypothesis based on a given set of training data samples. Read the training data from a .CSV file.
