@@ -6,13 +6,13 @@ def kernel(point, xmat, k):
     m,n = np.shape(xmat)
     weights = np.mat(np.eye((m))) # eye - identity matrix
     for j in range(m):
-        diff = point - X[j]
-        weights[j,j] = np.exp(diff*diff.T/(-2.0*k**2))
+        diff = point - xmat[j]
+        weights[j,j] = np.exp(diff*diff.T/(-2.0*k*k))
     return weights
 
 def localWeight(point,xmat,ymat,k):
     wt = kernel(point,xmat,k)
-    W = (X.T*(wt*X)).I*(X.T*(wt*ymat.T))
+    W = (xmat.T*(wt*xmat)).I*(xmat.T*(wt*ymat.T))
     return W
 
 def localWeightRegression(xmat,ymat,k):
@@ -32,7 +32,7 @@ m = np.shape(mtip)[1]
 one = np.ones((1,m), dtype= int)
 X = np.hstack((one.T,mbill.T)) # 244 rows, 2 cols
 
-ypred = localWeightRegression(X,mtip,8) # increase k to get smooth curves
+ypred = localWeightRegression(X,mtip,0.5) # increase k to get smooth curves
 
 xsort = X.copy()
 xsort.sort(axis=0)
