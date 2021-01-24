@@ -11,21 +11,20 @@ X.columns = ['Sepal_Length','Sepal_Width','Petal_Length','Petal_Width']
 y = pd.DataFrame(iris.target)
 y.columns = ['Targets']
 
-
-from sklearn.cluster import KMeans
-model = KMeans(n_clusters=3)
-model.fit(X) # model.labels_ : Gives cluster no for which samples belongs to
- 
-# # Visualise the clustering results
+# Visualise the clustering results
 plt.figure(figsize=(14,14))
 colormap = np.array(['red', 'lime', 'black'])
 
- # Plot the Original Classifications using Petal features
+# Plot the Original Classifications using Petal features
 plt.subplot(2, 2, 1)
 plt.scatter(X.Petal_Length, X.Petal_Width, c=colormap[y.Targets], s=40)
 plt.title('Real Clusters')
 plt.xlabel('Petal Length')
 plt.ylabel('Petal Width')
+
+from sklearn.cluster import KMeans
+model = KMeans(n_clusters=3)
+model.fit(X) # model.labels_ : Gives cluster no for which samples belongs to
 
  # Plot the Models Classifications
 plt.subplot(2, 2, 2)
@@ -42,14 +41,18 @@ scaler = preprocessing.StandardScaler()
 scaler.fit(X)
 xsa = scaler.transform(X)
 xs = pd.DataFrame(xsa, columns = X.columns)
+
 from sklearn.mixture import GaussianMixture 
 gmm = GaussianMixture(n_components=3)
 gmm.fit(xs)
 gmm_y = gmm.predict(xs)
+
 plt.subplot(2, 2, 3)
 plt.scatter(X.Petal_Length, X.Petal_Width, c=colormap[gmm_y], s=40)
 plt.title('GMM Clustering')
 plt.xlabel('Petal Length')
 plt.ylabel('Petal Width')
+
 plt.show()
+
 print('Observation: The GMM using EM algorithm based clustering matched the true labels more closely than the Kmeans.')
