@@ -7,17 +7,19 @@ target = np.array(data.iloc[:,-1])
  
 def learn(concepts,target):
     specific_h = concepts[0].copy()
-    general_h = [["?" for i in range(len(specific_h))] for i in range(len(specific_h))]
+    rangeH = range(len(specific_h))
+
+    general_h = [["?" for i in rangeH] for i in rangeH]
     
     for i,h in enumerate(concepts):
         if target[i] == "Yes":
-            for x in range(len(specific_h)):
+            for x in rangeH:
                 if h[x] != specific_h[x]:
                     specific_h[x] = "?"
                     general_h[x][x] = "?"    
  
         if target[i] == "No":
-            for x in range(len(specific_h)):
+            for x in rangeH:
                 if h[x] != specific_h[x]:
                     general_h[x][x] = specific_h[x]
                 else:
@@ -26,8 +28,8 @@ def learn(concepts,target):
     while ['?','?','?','?','?','?'] in general_h:
         general_h.remove(['?','?','?','?','?','?'])
  
-    return specific_h,general_h
+    return specific_h, general_h
  
-s_final,g_final = learn(concepts,target)
+s_final, g_final = learn(concepts,target)
 print("Final S: ",s_final)
 print("Final G: ",g_final)

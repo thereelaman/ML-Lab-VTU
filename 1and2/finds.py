@@ -8,9 +8,10 @@ target = np.array(data.iloc[:, -1])
 
 def learn(concepts, target):
     specific_h = concepts[0].copy()
+    rangeH = range(len(specific_h))
     for i, h in enumerate(concepts):
         if target[i] == "Yes":
-            for x in range(len(specific_h)):
+            for x in rangeH:
             	if (h[x] != specific_h[x]):
                 	specific_h[x] = "?"
 
