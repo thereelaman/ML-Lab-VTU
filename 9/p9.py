@@ -5,7 +5,7 @@ from sklearn.datasets import load_iris
 data = load_iris()
 
 x = data.data
-y = data.target_names[data.target]
+y = data.target
 
 print(x[:5])
 print(y[:5])
