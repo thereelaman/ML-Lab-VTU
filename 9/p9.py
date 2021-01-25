@@ -16,13 +16,13 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2)
 from sklearn.neighbors import KNeighborsClassifier
 knn_classifier = KNeighborsClassifier(n_neighbors=5)
 knn_classifier.fit(x_train, y_train)
-predictions = knn_classifier.predict(x_test)
-print(predictions)
-
-from sklearn import metrics
 
 knntrainpredict = knn_classifier.predict(x_train)
 knntestpredict = knn_classifier.predict(x_test)
+
+print(knntestpredict)
+
+from sklearn import metrics
 
 print("Training accuracy Score is : ", metrics.accuracy_score(y_train, knntrainpredict))
 print("Testing accuracy Score is : ", metrics.accuracy_score(y_test, knntestpredict))
