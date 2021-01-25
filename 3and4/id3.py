@@ -73,7 +73,6 @@ def generate_childs(dataset, attribute_index):
 
 # function that modifies the dataset according to the impure childs
 def modify_data_set(dataset, index, feature, impurity):
-    size = len(dataset)
     subdata = dataset[dataset[feature] == impurity]
     del (subdata[subdata.columns[index]])
     return subdata
@@ -98,7 +97,7 @@ def construct_tree(dataset, tree):
     childs = generate_childs(dataset, attribute_index)
     tree[dataset.columns[attribute_index]] = childs
     targets = list(set(dataset.iloc[:, -1]))
-    
+
     #k is the attribute, v is the number of positive/negtive occurences of the attribute
     for k, v in childs.items():
         if v[0] == 0:
@@ -109,7 +108,7 @@ def construct_tree(dataset, tree):
             impure_childs.append(k)
 
     for i in impure_childs:
-        sub = modify_data_set(dataset,attribute_index, dataset.columns[attribute_index], i)
+        sub = modify_data_set(dataset, attribute_index, dataset.columns[attribute_index], i)
         tree = construct_tree(sub, tree)
     return tree
 
