@@ -1,9 +1,7 @@
 import pandas as pd
-import math
-
+import numpy as np
 
 # function to calculate the entropy of entire dataset
-# -----------------------------------------------------------------------
 def base_entropy(dataset):
     p = 0
     n = 0
@@ -20,14 +18,10 @@ def base_entropy(dataset):
         return 1
     else:
         entropy = 0 - (
-            ((p / (p + n)) * (math.log2(p / (p + n))) + (n / (p + n)) * (math.log2(n / (p + n)))))
+            ((p / (p + n)) * (np.log2(p / (p + n))) + (n / (p + n)) * (np.log2(n / (p + n)))))
         return entropy
 
-
-# -----------------------------------------------------------------------
-
 # function to calculate the entropy of attributes
-# -----------------------------------------------------------------------
 def entropy(dataset, feature, attribute):
     p = 0
     n = 0
@@ -38,21 +32,17 @@ def entropy(dataset, feature, attribute):
             p = p + 1
         elif i == attribute and j == targets[1]:
             n = n + 1
+
     if p == 0 or n == 0:
         return 0
     elif p == n:
         return 1
     else:
         entropy = 0 - (
-            ((p / (p + n)) * (math.log2(p / (p + n))) + (n / (p + n)) * (math.log2(n / (p + n)))))
+            ((p / (p + n)) * (np.log2(p / (p + n))) + (n / (p + n)) * (np.log2(n / (p + n)))))
         return entropy
 
-
-# -----------------------------------------------------------------------
-
-
 # a utility function for checking purity and impurity of a child
-# -----------------------------------------------------------------------
 def counter(target, attribute, i):
     p = 0
     n = 0
@@ -64,12 +54,7 @@ def counter(target, attribute, i):
             n = n + 1
     return p, n
 
-
-# -----------------------------------------------------------------------
-
-
 # function that calculates the information gain
-# -----------------------------------------------------------------------
 def Information_Gain(dataset, feature):
     Distinct = list(set(feature))
     Info_Gain = 0
@@ -78,12 +63,7 @@ def Information_Gain(dataset, feature):
     Info_Gain = base_entropy(dataset) - Info_Gain
     return Info_Gain
 
-
-# -----------------------------------------------------------------------
-
-
 # function that generates the childs of selected Attribute
-# -----------------------------------------------------------------------
 def generate_childs(dataset, attribute_index):
     distinct = list(dataset.iloc[:, attribute_index])
     childs = dict()
@@ -91,23 +71,14 @@ def generate_childs(dataset, attribute_index):
         childs[i] = counter(dataset.iloc[:, -1], dataset.iloc[:, attribute_index], i)
     return childs
 
-
-# -----------------------------------------------------------------------
-
 # function that modifies the dataset according to the impure childs
-# -----------------------------------------------------------------------
-def modify_data_set(dataset,index, feature, impurity):
+def modify_data_set(dataset, index, feature, impurity):
     size = len(dataset)
     subdata = dataset[dataset[feature] == impurity]
     del (subdata[subdata.columns[index]])
     return subdata
 
-
-# -----------------------------------------------------------------------
-
-
-# function that return attribute with the greatest Information Gain
-# -----------------------------------------------------------------------
+# function that returns attribute with the greatest Information Gain
 def greatest_information_gain(dataset):
     max = -1
     attribute_index = 0
@@ -120,19 +91,15 @@ def greatest_information_gain(dataset):
             attribute_index = i
     return attribute_index
 
-
-# -----------------------------------------------------------------------
-
-
 # function to construct the decision tree
-# -----------------------------------------------------------------------
 def construct_tree(dataset, tree):
-    target = dataset.iloc[:, -1]
     impure_childs = []
     attribute_index = greatest_information_gain(dataset)
     childs = generate_childs(dataset, attribute_index)
     tree[dataset.columns[attribute_index]] = childs
     targets = list(set(dataset.iloc[:, -1]))
+    
+    #k is the attribute, v is the number of positive/negtive occurences of the attribute
     for k, v in childs.items():
         if v[0] == 0:
             tree[k] = targets[1]
@@ -140,24 +107,13 @@ def construct_tree(dataset, tree):
             tree[k] = targets[0]
         elif v[0] != 0 or v[1] != 0:
             impure_childs.append(k)
+
     for i in impure_childs:
         sub = modify_data_set(dataset,attribute_index, dataset.columns[attribute_index], i)
         tree = construct_tree(sub, tree)
     return tree
 
-
-# -----------------------------------------------------------------------
-
-
-# main function
-# -----------------------------------------------------------------------
-def main():
-    df = pd.read_csv("3and4\weather.csv")
-    tree = dict()
-    result = construct_tree(df, tree)
-    for key, value in result.items():
-        print(key, " => ", value)
-
-
-# -----------------------------------------------------------------------
-main()
+df = pd.read_csv("3and4\weather.csv")
+tree = dict()
+result = construct_tree(df, tree)
+print(result)
