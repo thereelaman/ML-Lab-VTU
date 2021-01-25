@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn import datasets
+from sklearn.datasets import load_iris
  # import some data to play with
-iris = datasets.load_iris()
+iris = load_iris()
 X = pd.DataFrame(iris.data)
 X.columns = ['Sepal_Length','Sepal_Width','Petal_Length','Petal_Width']
 
@@ -25,10 +25,10 @@ plt.ylabel('Petal Width')
 from sklearn.cluster import KMeans
 model = KMeans(n_clusters=3)
 model.fit(X) # model.labels_ : Gives cluster no for which samples belongs to
-
+model_y = model.predict(X)
  # Plot the Models Classifications
 plt.subplot(2, 2, 2)
-plt.scatter(X.Petal_Length, X.Petal_Width, c=colormap[model.labels_], s=40)
+plt.scatter(X.Petal_Length, X.Petal_Width, c=colormap[model_y], s=40)
 plt.title('K-Means Clustering')
 plt.xlabel('Petal Length')
 plt.ylabel('Petal Width')
